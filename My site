@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MyWeb</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:Arial,sans-serif;background:#080808;color:#fff}
+nav{position:fixed;top:0;width:100%;height:70px;padding:0 8%;display:flex;align-items:center;justify-content:space-between;background:rgba(8,8,8,.94);backdrop-filter:blur(10px);border-bottom:1px solid #222;z-index:1000}
+.logo{font-size:25px;font-weight:bold}.logo span{color:#00e5ff}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{color:#fff;text-decoration:none}.nav-links a:hover{color:#00e5ff}
+.menu{display:none;font-size:28px;cursor:pointer}
+
+.hero{min-height:100vh;padding:130px 8%;display:flex;align-items:center;background:linear-gradient(90deg,#080808 25%,rgba(8,8,8,.55)),url("https://images.unsplash.com/photo-1497366754035-f200968a6e72?auto=format&fit=crop&w=1800&q=80") center/cover}
+.hero-content{max-width:700px}
+.hero small{color:#00e5ff;letter-spacing:4px;font-weight:bold}
+.hero h1{font-size:clamp(50px,9vw,90px);line-height:1;margin:20px 0}
+.hero h1 span{color:#00e5ff}
+.hero p{color:#bbb;font-size:18px;margin-bottom:30px}
+.btn{display:inline-block;padding:14px 28px;background:#00e5ff;color:#000;text-decoration:none;font-weight:bold;border-radius:6px;border:0;cursor:pointer}
+.btn.dark{background:transparent;color:#fff;border:1px solid #444;margin-left:10px}
+
+section{padding:100px 8%}
+.title{text-align:center;margin-bottom:55px}
+.title h2{font-size:42px;margin-bottom:10px}.title p{color:#888}
+
+.services,.projects{display:grid;grid-template-columns:repeat(3,1fr);gap:25px}
+.card,.project{background:#111;border:1px solid #222;border-radius:14px;transition:.3s}
+.card{padding:35px}.card:hover,.project:hover{transform:translateY(-8px);border-color:#00e5ff}
+.icon{font-size:42px;margin-bottom:20px}.card h3{font-size:22px;margin-bottom:12px}.card p{color:#999}
+
+.about{background:#0d0d0d;text-align:center}
+.about-content{max-width:850px;margin:auto}
+.about-content h2{font-size:45px;margin-bottom:20px}
+.about-content>p{color:#aaa;font-size:18px}
+.stats{margin-top:45px;display:grid;grid-template-columns:repeat(3,1fr);gap:25px}
+.stat{background:#111;padding:25px;border-radius:12px}.stat h3{color:#00e5ff;font-size:35px}.stat p{color:#888}
+
+.project{overflow:hidden}.project img{width:100%;height:220px;object-fit:cover;display:block}
+.project-content{padding:22px}.project-content p{color:#888}
+
+.contact{background:#0d0d0d;text-align:center}
+.contact-box{max-width:650px;margin:auto}
+.contact-box p{color:#aaa;margin-bottom:25px}
+
+footer{padding:30px 8%;text-align:center;color:#666;border-top:1px solid #222}
+
+/* Contact popup */
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    z-index:2000;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal-box{
+    width:100%;
+    max-width:420px;
+    background:#111;
+    border:1px solid #333;
+    border-radius:18px;
+    padding:35px;
+    text-align:center;
+    box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+
+.modal-box h2{
+    margin-bottom:10px;
+    font-size:30px;
+}
+
+.modal-box p{
+    color:#999;
+    margin-bottom:25px;
+}
+
+.phone{
+    display:block;
+    font-size:28px;
+    font-weight:bold;
+    color:#00e5ff;
+    text-decoration:none;
+    margin:20px 0 25px;
+}
+
+.close{
+    background:#222;
+    color:#fff;
+    border:1px solid #444;
+    padding:12px 25px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+@media(max-width:800px){
+    .menu{display:block}
+    .nav-links{display:none;position:absolute;top:70px;right:5%;width:200px;padding:20px;flex-direction:column;background:#111;border:1px solid #222;border-radius:10px}
+    .nav-links.active{display:flex}
+    .services,.projects{grid-template-columns:1fr}
+    .stats{grid-template-columns:1fr}
+    .hero h1{font-size:55px}
+    .btn.dark{margin-left:0;margin-top:10px}
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">MY<span>WEB</span></div>
+
+    <div class="menu" onclick="toggleMenu()">☰</div>
+
+    <ul class="nav-links" id="navLinks">
+        <li><a href="#home" onclick="closeMenu()">Home</a></li>
+        <li><a href="#services" onclick="closeMenu()">Services</a></li>
+        <li><a href="#about" onclick="closeMenu()">About</a></li>
+        <li><a href="#projects" onclick="closeMenu()">Projects</a></li>
+        <li><a href="#" onclick="openContact(event)">Contact</a></li>
+    </ul>
+</nav>
+
+<section class="hero" id="home">
+    <div class="hero-content">
+        <small>WELCOME TO MY WEBSITE</small>
+
+        <h1>
+            Build Something
+            <span>Amazing.</span>
+        </h1>
+
+        <p>
+            A modern responsive website built with
+            HTML, CSS and JavaScript.
+        </p>
+
+        <a href="#services" class="btn">Explore</a>
+        <a href="#" class="btn dark" onclick="openContact(event)">Contact</a>
+    </div>
+</section>
+
+<section id="services">
+    <div class="title">
+        <h2>My Services</h2>
+        <p>Creative digital solutions.</p>
+    </div>
+
+    <div class="services">
+
+        <div class="card">
+            <div class="icon">💻</div>
+            <h3>Web Design</h3>
+            <p>Modern and responsive websites for personal and business projects.</p>
+        </div>
+
+        <div class="card">
+            <div class="icon">⚡</div>
+            <h3>Fast Websites</h3>
+            <p>Lightweight websites designed for smooth mobile performance.</p>
+        </div>
+
+        <div class="card">
+            <div class="icon">🔐</div>
+            <h3>Cybersecurity</h3>
+            <p>Ethical security testing and cybersecurity learning projects.</p>
+        </div>
+
+    </div>
+</section>
+
+<section class="about" id="about">
+    <div class="about-content">
+        <h2>About Me</h2>
+        <p>
+            I'm learning web development and cybersecurity,
+            building projects using Termux, Acode, HTML,
+            CSS, JavaScript and Python.
+        </p>
+
+        <div class="stats">
+            <div class="stat"><h3>10+</h3><p>Projects</p></div>
+            <div class="stat"><h3>24/7</h3><p>Learning</p></div>
+            <div class="stat"><h3>100%</h3><p>Passion</p></div>
+        </div>
+    </div>
+</section>
+
+<section id="projects">
+    <div class="title">
+        <h2>Projects</h2>
+        <p>Some of my work.</p>
+    </div>
+
+    <div class="projects">
+
+        <div class="project">
+            <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=900&q=80">
+            <div class="project-content">
+                <h3>Web Project</h3>
+                <p>Modern responsive website.</p>
+            </div>
+        </div>
+
+        <div class="project">
+            <img src="https://images.unsplash.com/photo-1558494949-ef010cbdcc31?auto=format&fit=crop&w=900&q=80">
+            <div class="project-content">
+                <h3>Server Lab</h3>
+                <p>Local Python web server project.</p>
+            </div>
+        </div>
+
+        <div class="project">
+            <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?auto=format&fit=crop&w=900&q=80">
+            <div class="project-content">
+                <h3>Security Lab</h3>
+                <p>Ethical cybersecurity practice.</p>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<section class="contact" id="contact">
+    <div class="title">
+        <h2>Contact</h2>
+        <p>Click below to view contact details.</p>
+    </div>
+
+    <button class="btn" onclick="openContact(event)">
+        Contact Me
+    </button>
+</section>
+
+<footer>
+    © 2026 MyWeb. All Rights Reserved.
+</footer>
+
+<!-- Contact Window -->
+<div class="modal" id="contactModal" onclick="outsideClose(event)">
+    <div class="modal-box">
+
+        <h2>Contact Me</h2>
+
+        <p>You can contact me using this number.</p>
+
+        <a class="phone" href="tel:9846375668">
+            9846375668
+        </a>
+
+        <button class="close" onclick="closeContact()">
+            Close
+        </button>
+
+    </div>
+</div>
+
+<script>
+function toggleMenu(){
+    document.getElementById("navLinks").classList.toggle("active");
+}
+
+function closeMenu(){
+    document.getElementById("navLinks").classList.remove("active");
+}
+
+function openContact(event){
+    if(event) event.preventDefault();
+
+    closeMenu();
+
+    document.getElementById("contactModal").style.display = "flex";
+}
+
+function closeContact(){
+    document.getElementById("contactModal").style.display = "none";
+}
+
+function outsideClose(event){
+    if(event.target.id === "contactModal"){
+        closeContact();
+    }
+}
+
+document.addEventListener("keydown", function(event){
+    if(event.key === "Escape"){
+        closeContact();
+    }
+});
+</script>
+
+</body>
+</html>
